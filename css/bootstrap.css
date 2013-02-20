@@ -1068,7 +1068,11 @@ table {
 }
 .table-striped tbody > tr:nth-child(odd) > td,
 .table-striped tbody > tr:nth-child(odd) > th {
-  background-color: #f9f9f9;
+  background-color: #E4EF89;
+}
+.table-striped tbody > tr:nth-child(even) > td,
+.table-striped tbody > tr:nth-child(even) > th {
+  background-color: #E4C9A3;
 }
 .table-hover tbody tr:hover > td,
 .table-hover tbody tr:hover > th {

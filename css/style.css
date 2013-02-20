@@ -11,6 +11,7 @@ body {
 	position: absolute;
 	margin-top: 350px;
 	background-color: #FFF;
+	padding: 10px;
 }
 
 .hero-unit {
@@ -43,6 +44,15 @@ body {
 
 .greenbg {
 	background-color: #D1E231;
+}
+
+.lightgreenbg {
+	/*background-color: #D1E231;*/
+	background-color: #E4EF89;
+}
+.brownbg {
+	/*background-color: #D1E231;*/
+	background-color: #E4C9A3;
 }
 
 .textblk * {

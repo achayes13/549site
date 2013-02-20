@@ -1,0 +1,53 @@
+/* CC9752 brown 9ACD32 yellow green */
+#wrapper {
+	width: 1000px;
+	margin: auto;
+	background-color: #FFF;
+	min-height: 100%;
+}
+body {
+	background-color: #D1E231;
+}
+.hero-unit {
+	background-color: #D1E231;
+	border-radius: 0px;
+}
+
+#navbar ul li .icon-chevron-right {
+	float:right;
+}
+#navbar ul li a {
+	padding: 10px;
+	border-right: 1px solid #D1E231;
+	border-bottom: 1px solid #D1E231;
+	color: #CC9752;
+}
+#navbar ul li a:first-child{
+	border-top: 1px solid #D1E231;
+}
+#members {
+	float: right;
+	opacity: .5;
+}
+
+#leftcol {
+	margin-top: -20px;
+}
+
+#rightcol {
+	margin-top: -20px;
+}
+
+.greenbg {
+	background-color: #D1E231;
+}
+
+.whitebg {
+	background-color: #FFF;
+}
+
+.textblock * {
+	line-height: 25px;
+	padding: 15px;
+	text-align: center;
+}

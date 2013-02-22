@@ -42,6 +42,14 @@ body {
 		text-align: center;
 	}
 
+h4 {
+	line-height: 25px;
+}
+
+p {
+	font-size: 15px;
+}
+
 .greenbg {
 	background-color: #D1E231;
 }
@@ -62,4 +70,22 @@ body {
 .textblk {
 	padding: 15px;
 	text-align: center;
+}
+
+#teammembers .thumbnail:nth-child(odd):hover {
+	background-color: #E4EF89;
+}
+
+#teammembers .thumbnail:nth-child(even):hover {
+	background-color: #E4EF89;
+}
+
+#teammembers .thumbnail {
+	padding: 10px;
+	border-radius: 5px;
+}
+
+.tnimg {
+	max-height: 150px;
+	min-height: 100px;
 }

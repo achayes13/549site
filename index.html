@@ -262,8 +262,9 @@
 					<div class="offset1 span3">
 						<h1> Competition </h1>
 					</div>
-					<div class="span7">
-						<h1> Risks and Mitigations </h1>
+					<div class="row-fluid span7">
+						<h1 class="span4"> Risks </h1>
+						<h1 class="span8"> Mitigations </h1>
 					</div>
 				</div>
 				<div class="row-fluid">
@@ -312,37 +313,30 @@
 							<a class="carousel-control left" class="carArrow" href="#compCar" data-slide="prev">&lsaquo;</a>
 							<a class="carousel-control right" class="carArrow" href="#compCar" data-slide="next">&rsaquo;</a>
 						</div>
-						<!--<div class="thumbnail span3">
-							<div class="caption">
-								<h4> Soda Fountain </h4>
-								<p> High priced, only found in commercial settings, only does soda </p>
-							</div>
-							<img alt="Soda Fountain" style="height: 200px" class="tnimg" src="img/sodamachine.jpg" />
-	                	</div>
-						<div class="thumbnail span3">
-							<div class="caption">
-								<h4> Blendtec Smoothie Machine </h4>
-								<p> Only does smoothies, very expensive, commercial use only; The main alternative for smoothies is a blender, which is included in our product </p>
-							</div>
-							<img alt="Smoothie Machine" style="max-height: 200px" class="tnimg" src="img/btecsmoothie.jpg" />
-	                	</div>
-						<div class="thumbnail span3">
-							<div class="caption">
-								<h4> Zevro Dry Food Dispenser </h4>
-								<p> Only does cereal/dry food, no temperature control, no milk, no automation </p>
-							</div>
-							<img alt="Cereal Dispenser" style="height: 200px" class="tnimg" src="img/cerealdispenser.jpg" />
-	                	</div>
-						<div class="thumbnail span3">
-							<div class="caption">
-								<h4> Keurig Coffee Maker </h4>
-								<p> Product is instant-coffee quality (as is ours), but only does coffee; expensive </p>
-							</div>
-							<img alt="Coffee Maker" style="height: 200px" class="tnimg" src="img/coffeemaker.jpg" />
-	                	</div>-->
 					</div>
-					<div class="span7">
-						<table id="rmtab" class="table table-bordered table-striped">
+					<div class="span7 rmtab">
+						<div class="row-fluid">
+							<p class="span4"> Temperature control doesn't work </p>
+							<p class="span8"> Remove initial plan to use arbitrary temperature control, and go with 1 hot and 1 cold chamber, (2) try 1 hot OR 1 cold chamber, or (3) look for alternative methods of temperature control (like heating coils) </p>
+						</div>
+						<div class="row-fluid">
+							<p class="span4"> Powering all of the devices: motors, solenoid valves, and TEC have specific power needs </p>
+							<p class="span8"> We are planning to use batteries for the motors and solenoid valves, and a portable current supply for the TEC. If this is insufficient, we may use a desktop computer PSU, which can provide more current. </p>
+						</div>
+						<div class="row-fluid">
+							<p class="span4"> Low experience with mechanical elements </p>
+							<p class="span8"> We have a few external resources who we can consult if need be </p>
+						</div>
+						<div class="row-fluid">
+							<p class="span4"> Weighing machine goes in to power save mode too quickly </p>
+							<p class="span8"> There should be a setting to change it </p>
+						</div>
+						<div class="row-fluid">
+							<p class="span4"> Blender cups have low tolerance for high heat </p>
+							<p class="span8"> Find different blender cups, lower maximum temperature of device, or find an easily-swappable heat-resistant solution </p>
+						</div>
+
+						<!--<table id="rmtab" class="table table-bordered table-striped">
 							<thead>
 								<tr>
 									<th class="span6">Risks</th>
@@ -351,8 +345,8 @@
 							</thead>
 							<tbody>
 								<tr>
-									<td> Temperature control doesn't work </td>
-									<td> Remove initial plan to use arbitrary temperature control, and go with 1 hot and 1 cold chamber, (2) try 1 hot OR 1 cold chamber, or (3) look for alternative methods of temperature control (like heating coils) </td>
+									<td class="span6"> Temperature control doesn't work </td>
+									<td class="span6"> Remove initial plan to use arbitrary temperature control, and go with 1 hot and 1 cold chamber, (2) try 1 hot OR 1 cold chamber, or (3) look for alternative methods of temperature control (like heating coils) </td>
 								</tr>
 								<tr>
 									<td> Powering all of the devices: motors, solenoid valves, and TEC have specific power needs </td>
@@ -371,7 +365,7 @@
 									<td> Find different blender cups, lower maximum temperature of device, or find an easily-swappable heat-resistant solution </td>
 								</tr>
 							</tbody>
-						</table>
+						</table>-->
 					</div>
 				</div>
 			</div>
@@ -399,7 +393,7 @@
 							</div>
 	                	</div>
 						<div class="thumbnail span3">
-							<img alt="300x200" class="tnimg" src="img.png" />
+							<img alt="300x200" class="tnimg" src="img/mjgardne.jpg" />
 							<div class="caption">
 								<h3>Mike Gardner</h3>
 								<ul class="unstyled">
@@ -411,7 +405,7 @@
 							</div>
 	                	</div>
 						<div class="thumbnail span3">
-							<img alt="300x200" class="tnimg" src="img/achayes.jpg" />
+							<img alt="300x200" class="tnimg" src="img/achayes2.jpg" />
 							<div class="caption">
 								<h3>Arjuna Hayes</h3>
 								<ul class="unstyled">
@@ -423,7 +417,7 @@
 							</div>
 	                	</div>
 						<div class="thumbnail span3">
-							<img alt="300x200" class="tnimg" src="img/ltsang.jpg" />
+							<img alt="300x200" class="tnimg" src="img/ltsangdwi.jpg" />
 							<div class="caption">
 								<h3>Lawrence Tsang</h3>
 								<ul class="unstyled">

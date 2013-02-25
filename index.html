@@ -4,72 +4,140 @@
 		<link href="css/bootstrap.css" rel="stylesheet" />
 		<link href="css/style.css" rel="stylesheet" />
 		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+		<script src="js/bootstrap.min.js"></script>
 		<script>
 
-		var resize = function() {
-			$('#concept').css({'height': '100%'});
-			$('#motivation').css({'height': '100%'});
-			var h1 = $('#concept').height();
-			var h2 = $('#motivation').height();
-			var hMax = Math.max(h1, h2);
-			$('#concept').height(hMax);
-			$('#motivation').height(hMax);
-		}
-
 		$(window).load(function() {
-			var headh = $('#headerhero');
-			var head = $('#header');
-			var headt = $('#headtag');
-			var content = $('#content');
-			var arch = $('#architecture');
-			$(window).scroll(function(){
-				var yPos = $(window).scrollTop();
-				var headtop = Math.max(-60, -1*yPos);
-				var headheight = Math.max(220-yPos, 150);
-				var archMar = Math.min(0, -900+yPos);
-				headh.css({'margin-top': headtop});
-				headt.css({'margin-top': -1*yPos + 220});
-				head.css({'height': headheight});
-				arch.css({'margin-left': archMar, 'opacity': Math.min(1, 1-archMar/-900)});
+			var curPage = 1;
+			var numPages = 5;
+			var queuedScrolls = 0;
+				
+			$('.carousel').carousel();
+
+			$('#test').hover(function() {
+				$('#test').popover('show');
+			}, function() {
+				$('#test').popover('hide');
+			});			
+			var doneScroll = function() {
+				queuedScrolls--;
+			};
+
+			var p2scroll = function() {
+			};
+
+			var resize = function() {
+				$('#concept').css({'height': 'auto'});
+				$('#motivation').css({'height': 'auto'});
+
+				var h1 = $('#concept').height();
+				var h2 = $('#motivation').height();
+				var hMax = Math.max(h1, h2);
+				$('#concept').height(hMax);
+				$('#motivation').height(hMax);
+
+				$('html,body').animate({scrollTop: $('#page'+curPage).offset().top}, 1);
+				$('#archdiv').css({'margin-left': ($('#page'+curPage).width() - $('#archdiv').width())/2});
+				for (var i = 0; i < numPages; i++)
+					centerWrap(i+1);
+				setZ();
+			}
+
+			var centerWrap = function(page) {
+				page = page === undefined ? curPage : page;
+				var curWrap = $('#wrap'+page);
+				var topM = ($('#page'+page).height() - curWrap.height())/3;
+				$('#wrap'+page).css({'top': topM});
+			}
+
+			var setZ = function() {
+				for (var i = 0; i < numPages; i++) {
+					if (i !== curPage)
+						$('#page'+i).css({'z-index': -100});
+					else
+						$('#page'+i).css({'z-index': 10});
+				}
+			}
+
+
+			var pfns = [function(){}, p2scroll,function(){},function(){},function(){}]
+
+			$(window).bind('mousewheel DOMMouseScroll', function(e){
+				var pageH = $('#page'+curPage).height();
+				var wrapH = $('#wrap'+curPage).height();
+				var wrapM = parseInt($('#wrap'+curPage).css('top'));
+
+				e.preventDefault();
+				if (queuedScrolls >= 1) {
+					return;
+				}
+				var scrlAmt = e.originalEvent.wheelDelta;
+				var dir = scrlAmt > 0 ? 1 : -1;
+				if (dir > 0) {
+					if (wrapM < 0) {
+						$('#wrap'+curPage).animate({'top': wrapM + scrlAmt})
+						$('#page'+curPage).css({'height': '100%'})
+						queuedScrolls++;
+						setTimeout(function(){doneScroll();}, 400);
+					}
+					else {
+						if (curPage > 1)  {
+							curPage--;
+							$('html,body').animate({scrollTop: $('#page'+curPage).offset().top});
+							setZ();
+							pfns[curPage-1]();
+							queuedScrolls++;
+							setTimeout(function(){doneScroll();}, 400);
+						}
+					}
+				}
+				else {
+					if (wrapH + wrapM > pageH) {
+						$('#wrap'+curPage).animate({'top': wrapM + scrlAmt})
+						$('#page'+curPage).css({'height': '100%'})
+						queuedScrolls++;
+						setTimeout(function(){doneScroll();}, 400);
+					}
+					else {
+						if (curPage < numPages)  {
+							curPage++;
+							$('html,body').animate({scrollTop: $('#page'+curPage).offset().top});
+							setZ();
+							pfns[curPage-1]();
+							queuedScrolls++;
+							setTimeout(function(){doneScroll();}, 400);
+						}
+					}
+				}
 			});
+
+
 			resize();
+			$(window).resize(function(){
+				resize();
+			});
 		});
 
-		$(window).resize(function(){
-			resize();
-		});
 
 		</script>
 
 	</head>
 	<body>
-		<div id="wrapper">
-			<div id="header" class="greenbg row-fluid">
-					<div id="headerhero" class="span8 offset2 hero-unit">
-						<h1>TBD: The Beverage Dispenser</h1>
-						<br />
-						<h4 style="float:left"> 18-549: Spring 2013 </h4>
-						<h4 id="members"> Lance Christian, Mike Gardner, Arjuna Hayes, Lawrence Tsang</h4>
+
+		<div id="page1" class="page">
+			<div class="wrapper" id="wrap1">
+				<div id="header" class="greenbg row-fluid">
+					<div id="headerhero" class="span10 offset1">
+						<h1> The Beverage Dispenser </h1>
+						<h4 style="float:left" class="opa7"> 18-549: Spring 2013 </h4>
+						<h4 style="float:right" class="opa7"> Lance Christian, Mike Gardner, Arjuna Hayes, Lawrence Tsang</h4>
 					</div>
-			</div>
-			<div id="headtag" class="row-fluid greenbg">
-				<div class="span11 offset1">
-					<h4>In the Hitchhikers Guide to the Galaxy, there was a Nutri-matic robot that could concoct any drink your heart desired.<br />
-					In Star Trek, they had a food synthesizer which would turn food-menu-cards into full meals.<br />
-					The concept of autonomous consumable creation is common among sci-fi writers, but we intend to turn that dream into a reality.</h4>
 				</div>
-			</div>
-			<div id="content">
-				<br />
 				<div class="row-fluid">
 					<div class="offset1 span10 row-fluid">
 						<div id="concept" class="span5 textblk brownbg">
 							<h3>What does it do?</h3>
 							<h4> The Beverage (and More) Dispenser is a device which can dispense precisely measured amounts of temperature controlled food and drinks, allowing the user to make drinks, smoothies, and snacks by simply pushing a button. </h4>
-							<!--
-							<p> It makes you cereal. It pours you soda. It makes you a smoothie. It makes you a frozen daiquiri. It makes you hot coffee after you realize the tenth daiquiri might have been a bad idea. And it can do it all at once.</p>
-							<p> Basically, The Beverage (and More) Dispenser has a set of removable, temperature controlled containers which can be filled with any combination of liquid or solid consumables. It can then be set to dispense them in precisely measured quantities into a blender cup. This allows the user to set up a list of items the machine can produce, making it easy to make a consumable with the press of a button. Put cold milk, cereal, coffee powder, and hot water into it and it can make breakfast. Put ice, diced fruits, sugar, and milk in it to make a smoothie machine. There are so many possibilities.</p>
-							<p> It can even be set to make drinks on a timer. Getting ready to leave from work? Have a chilled drink waiting for you when you get home. Need your coffee in the morning? It can have it hot by the time you drag yourself out of bed.</p>-->
 						</div>
 						<div id="motivation" class="span7 textblk lightgreenbg">
 							<h3>Why make it?</h3>
@@ -80,27 +148,19 @@
 				</div>
 				<br />
 				<br />
-				<br />
-				<br />
-				<br />
-				<br />
+				<div class="row-fluid">
+					<h2 class="span10 offset1" style="text-align:center">Visit the <a href="http://tbd-549.blogspot.com/">blog</a> for a play-by-play update on how the project is going!</h2>
+				</div>
+			</div>
+			<!--Title, Subtitle, Concept, Motivation (and blog)-->
+		</div>
+
+		<div id="page2" class="page">
+			<div class="wrapper" id="wrap2">
 				<div class="row-fluid">
 					<div class="offset1 span10 row-fluid">
 						<div class="span7">
-							<h3> Requirements </h3>
-							<br />
-							<br />
-							<br />
-							<br />
-						</div>
-						<div class="span5">
-							<h3> Competition </h3>
-							<br />
-							<br />
-							<br />
-							<br />
-							<br />
-							<br />
+							<h1> Requirements </h1>
 							<br />
 							<br />
 							<br />
@@ -108,58 +168,65 @@
 						</div>
 					</div>
 				</div>
-				<br />
-				<br />
-				<br />
-				<br />
-				<br />
-				<br />
+			</div>
+		</div>
+
+		<div id="page3" class="page">
+			<div class="wrapper" id="wrap3">
 				<div class="row-fluid">
-					<div class="offset1 span10">
-						<h2> Technical Specifications </h2>
+					<div class="offset1 span10 row-fluid">
+						<h1> Architecture </h1>
+					</div>
+				</div>
+				<div id="archdiv">
+					<img src="architecture.png" style="width: 800px;" usemap="#archmap" style="float:left">
+					<map name="archmap" id="archmap">
+						<area shape="rect" coords="000,000,800,800" alt="Pic">
+					</map>
+					<div id="archdesc">
+						
 					</div>
 				</div>
 				<div class="row-fluid">
 					<div class="offset1 span10 row-fluid">
-						<div id="architecture" class="span8">
-							<img src="architecture.png" style="width: 100%;">
-						</div>
 						<div class="span4">
 							<h4> Hardware </h4>
 							<ul>
-								<li></li>
-								<li></li>
-								<li></li>
-								<li></li>
+								<li> Raspberry Pi </li>
+								<li> Thermo-Electric Coolers (TEC) </li>
+								<li> Solid Dispenser Motors </li>
+								<li> Scale </li>
+								<li> Blender and Blender Cups </li>
+								<li> Temperature Controlled Solid/Liquid Containers</li>
 							</ul>
+						</div>
+						<div class="span4">
 							<h4> Software </h4>
 							<ul>
-								<li></li>
-								<li></li>
-								<li></li>
-								<li></li>
+								<li> Web App with Barcode Scanner</li>
+								<li> Solenoid and Motor Controllers </li>
 							</ul>
+						</div>
+						<div class="span4">
 							<h4> Communication </h4>
 							<ul>
-								<li></li>
-								<li></li>
-								<li></li>
-								<li></li>
+								<li> Serial I/O for Scale/Pi </li>
+								<li> Wifi for Web App/Pi </li>
+								<li> Serial I/O for Motors/Solenoids </li>
 							</ul>
 						</div>
 
 					</div>
 				</div>
-				<br />
-				<br />
-				<br />
-				<br />
-				<br />
-				<br />
-				<div class="row-fluid">
+			</div>
+		</div>
+
+		<div id="page4" class="page">
+			<div class="wrapper" id="wrap4">
+				<!--<div class="row-fluid">
 					<div class="offset1 span10">
-						<h2> Risks and Mitigations </h2>
-						<table class="table table-bordered table-striped">
+						<h1> Risks and Mitigations </h1>
+						<table id="rmtab" class="table table-bordered table-striped">
 							<thead>
 								<tr>
 									<th class="span6">Risks</th>
@@ -169,30 +236,149 @@
 							<tbody>
 								<tr>
 									<td> Temperature control doesn't work </td>
-									<td> (1) Remove initial plan to use arbitrary temperature control, and go with 1 hot and 1 cold chamber, (2) try 1 hot OR 1 cold chamber, or (3) look for alternative methods of temperature control (like heating coils) </td>
-								</tr>
-								<tr>
-									<td> Temperature control works </td>
-									<td> Of course it does </td>
+									<td> Remove initial plan to use arbitrary temperature control, and go with 1 hot and 1 cold chamber, (2) try 1 hot OR 1 cold chamber, or (3) look for alternative methods of temperature control (like heating coils) </td>
 								</tr>
 								<tr>
 									<td> Powering all of the devices: motors, solenoid valves, and TEC have specific power needs </td>
-									<td> We are planning to use batteries for the motors and solenoid valves, and a portable current supply for the TEC </td>
+									<td> We are planning to use batteries for the motors and solenoid valves, and a portable current supply for the TEC. If this is insufficient, we may use a desktop computer PSU, which can provide more current. </td>
 								</tr>
 								<tr>
 									<td> Low experience with mechanical elements </td>
-									<td> We have a few resources we could tap to consult with </td>
+									<td> We have a few external resources who we can consult if need be </td>
+								</tr>
+								<tr>
+									<td> Weighing machine goes in to power save mode too quickly </td>
+									<td> There should be a setting to change it </td>
+								</tr>
+								<tr>
+									<td> Blender cups have low tolerance for high heat </td>
+									<td> Find different blender cups, lower maximum temperature of device, or find an easily-swappable heat-resistant solution </td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>-->
+				<div class="row-fluid">
+					<div class="offset1 span3">
+						<h1> Competition </h1>
+					</div>
+					<div class="span7">
+						<h1> Risks and Mitigations </h1>
+					</div>
+				</div>
+				<div class="row-fluid">
+					<div id="competition" class="offset1 span3 row-fluid">
+						<div id="compCar" class="carousel slide">
+							<!-- Carousel items -->
+							<div class="carousel-inner">
+								<div class="active item">
+									<div class="thumbnail">
+										<div class="caption">
+											<h4> Soda Fountain </h4>
+											<p> High priced, only found in commercial settings, only does soda </p>
+										</div>
+										<img alt="Soda Fountain" style="max-height: 300px" class="tnimg" src="img/sodamachine.jpg" />
+				                	</div>
+								</div>
+								<div class="item">
+									<div class="thumbnail">
+										<div class="caption">
+											<h4> Blendtec Smoothie Machine </h4>
+											<p> Only does smoothies, very expensive, commercial use only; The main alternative for smoothies is a blender, which is included in our product </p>
+										</div>
+										<img alt="Smoothie Machine" style="max-height: 300px" class="tnimg" src="img/btecsmoothie2.jpg" />
+				                	</div>
+								</div>
+								<div class="item">
+									<div class="thumbnail">
+										<div class="caption">
+											<h4> Zevro Dry Food Dispenser </h4>
+											<p> Only does cereal/dry food, no temperature control, no milk, no automation </p>
+										</div>
+										<img alt="Cereal Dispenser" style="max-height: 300px" class="tnimg" src="img/cerealdispenser.jpg" />
+				                	</div>
+								</div>
+								<div class="item">
+									<div class="thumbnail">
+										<div class="caption">
+											<h4> Keurig Coffee Maker </h4>
+											<p> Product is instant-coffee quality (as is ours), but only does coffee; expensive </p>
+										</div>
+										<img alt="Coffee Maker" style="max-height: 300px" class="tnimg" src="img/coffeemaker.jpg" />
+				                	</div>
+								</div>
+							</div>
+							<!-- Carousel nav -->
+							<a class="carousel-control left" class="carArrow" href="#compCar" data-slide="prev">&lsaquo;</a>
+							<a class="carousel-control right" class="carArrow" href="#compCar" data-slide="next">&rsaquo;</a>
+						</div>
+						<!--<div class="thumbnail span3">
+							<div class="caption">
+								<h4> Soda Fountain </h4>
+								<p> High priced, only found in commercial settings, only does soda </p>
+							</div>
+							<img alt="Soda Fountain" style="height: 200px" class="tnimg" src="img/sodamachine.jpg" />
+	                	</div>
+						<div class="thumbnail span3">
+							<div class="caption">
+								<h4> Blendtec Smoothie Machine </h4>
+								<p> Only does smoothies, very expensive, commercial use only; The main alternative for smoothies is a blender, which is included in our product </p>
+							</div>
+							<img alt="Smoothie Machine" style="max-height: 200px" class="tnimg" src="img/btecsmoothie.jpg" />
+	                	</div>
+						<div class="thumbnail span3">
+							<div class="caption">
+								<h4> Zevro Dry Food Dispenser </h4>
+								<p> Only does cereal/dry food, no temperature control, no milk, no automation </p>
+							</div>
+							<img alt="Cereal Dispenser" style="height: 200px" class="tnimg" src="img/cerealdispenser.jpg" />
+	                	</div>
+						<div class="thumbnail span3">
+							<div class="caption">
+								<h4> Keurig Coffee Maker </h4>
+								<p> Product is instant-coffee quality (as is ours), but only does coffee; expensive </p>
+							</div>
+							<img alt="Coffee Maker" style="height: 200px" class="tnimg" src="img/coffeemaker.jpg" />
+	                	</div>-->
+					</div>
+					<div class="span7">
+						<table id="rmtab" class="table table-bordered table-striped">
+							<thead>
+								<tr>
+									<th class="span6">Risks</th>
+									<th class="span6">Mitigations</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td> Temperature control doesn't work </td>
+									<td> Remove initial plan to use arbitrary temperature control, and go with 1 hot and 1 cold chamber, (2) try 1 hot OR 1 cold chamber, or (3) look for alternative methods of temperature control (like heating coils) </td>
+								</tr>
+								<tr>
+									<td> Powering all of the devices: motors, solenoid valves, and TEC have specific power needs </td>
+									<td> We are planning to use batteries for the motors and solenoid valves, and a portable current supply for the TEC. If this is insufficient, we may use a desktop computer PSU, which can provide more current. </td>
+								</tr>
+								<tr>
+									<td> Low experience with mechanical elements </td>
+									<td> We have a few external resources who we can consult if need be </td>
+								</tr>
+								<tr>
+									<td> Weighing machine goes in to power save mode too quickly </td>
+									<td> There should be a setting to change it </td>
+								</tr>
+								<tr>
+									<td> Blender cups have low tolerance for high heat </td>
+									<td> Find different blender cups, lower maximum temperature of device, or find an easily-swappable heat-resistant solution </td>
 								</tr>
 							</tbody>
 						</table>
 					</div>
 				</div>
-				<br />
-				<br />
-				<br />
-				<br />
-				<br />
-				<br />
+			</div>
+		</div>
+
+		<div id="page5" class="page">
+			<div class="wrapper" id="wrap5">
 				<div class="row-fluid">
 					<div class="offset1 span10">
 						<h2> Who are we? </h2>
@@ -201,7 +387,7 @@
 				<div class="row-fluid">
 					<div id="teammembers" class="offset1 span10 row-fluid">
 						<div class="thumbnail span3">
-							<img alt="300x200" class="tnimg" src="lchristi.jpg" />
+							<img alt="300x200" class="tnimg" src="img/lchristi.jpg" />
 							<div class="caption">
 								<h3>Lance Christian</h3>
 								<ul class="unstyled">
@@ -225,7 +411,7 @@
 							</div>
 	                	</div>
 						<div class="thumbnail span3">
-							<img alt="300x200" class="tnimg" src="achayes.jpg" />
+							<img alt="300x200" class="tnimg" src="img/achayes.jpg" />
 							<div class="caption">
 								<h3>Arjuna Hayes</h3>
 								<ul class="unstyled">
@@ -237,7 +423,7 @@
 							</div>
 	                	</div>
 						<div class="thumbnail span3">
-							<img alt="300x200" class="tnimg" src="ltsang.jpg" />
+							<img alt="300x200" class="tnimg" src="img/ltsang.jpg" />
 							<div class="caption">
 								<h3>Lawrence Tsang</h3>
 								<ul class="unstyled">
@@ -249,12 +435,6 @@
 							</div>
 	                	</div>
 					</div>
-				</div>
-				<br />
-				<br />
-				<br />
-				<div class="row-fluid">
-					<h2 class="span10 offset1">Visit the <a href="http://tbd-549.blogspot.com/">blog</a> for a play-by-play update on how the project is going!</h2>
 				</div>
 			</div>
 		</div>

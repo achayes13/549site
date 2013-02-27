@@ -38,10 +38,14 @@
 				$('#motivation').height(hMax);
 
 				$('html,body').animate({scrollTop: $('#page'+curPage).offset().top}, 1);
-				$('#archdiv').css({'margin-left': ($('#page'+curPage).width() - $('#archdiv').width())/2});
+				//$('#archdiv').css({'margin-left': ($('#page'+curPage).width() - $('#archdiv').width())/2});
 				for (var i = 0; i < numPages; i++)
 					centerWrap(i+1);
 				setZ();
+				resizeHB();
+				var hh = $('#headerhero');
+				var hhh = hh.height();
+				hh.css({'padding-top': 260 - hhh});
 			}
 
 			var centerWrap = function(page) {
@@ -52,11 +56,22 @@
 			}
 
 			var setZ = function() {
-				for (var i = 0; i < numPages; i++) {
+				for (var i = 1; i <= numPages; i++) {
 					if (i !== curPage)
-						$('#page'+i).css({'z-index': -100});
+						$('#page'+i).css({'z-index': 1000 - 10*Math.abs(curPage-i)});
 					else
-						$('#page'+i).css({'z-index': 10});
+						$('#page'+i).css({'z-index': 1000});
+				}
+			}
+
+			var resizeHB = function() {
+				for (var i = 1; i <= numPages; i++) {
+					var p = $('#page'+i);
+					var w = $('#wrap'+i);
+					var h = (p.height() - w.height())/2;
+					var mor = i == 1 ? 290 : 60;
+					$('#hb'+i).css({'margin-top': Math.min(0, -1*h)});
+					$('#hb'+i).css({'height': Math.max(0, h) + mor});
 				}
 			}
 
@@ -76,15 +91,18 @@
 				var dir = scrlAmt > 0 ? 1 : -1;
 				if (dir > 0) {
 					if (wrapM < 0) {
-						$('#wrap'+curPage).animate({'top': wrapM + scrlAmt})
-						$('#page'+curPage).css({'height': '100%'})
+						$('#wrap'+curPage).animate({'top': Math.min(0, wrapM + scrlAmt)}, 200);
+						$('#page'+curPage).css({'height': '100%'});
 						queuedScrolls++;
-						setTimeout(function(){doneScroll();}, 400);
+						setTimeout(function(){doneScroll();}, 200);
 					}
 					else {
 						if (curPage > 1)  {
 							curPage--;
-							$('html,body').animate({scrollTop: $('#page'+curPage).offset().top});
+							pageH = $('#page'+curPage).height();
+							wrapH = $('#wrap'+curPage).height();
+							$('#wrap'+curPage).css({'top': Math.min((pageH-wrapH)/3, pageH-wrapH)});
+							$('html,body').animate({scrollTop: $('#page'+curPage).offset().top}, 400);
 							setZ();
 							pfns[curPage-1]();
 							queuedScrolls++;
@@ -94,15 +112,18 @@
 				}
 				else {
 					if (wrapH + wrapM > pageH) {
-						$('#wrap'+curPage).animate({'top': wrapM + scrlAmt})
+						$('#wrap'+curPage).animate({'top': wrapM + scrlAmt}, 200)
 						$('#page'+curPage).css({'height': '100%'})
 						queuedScrolls++;
-						setTimeout(function(){doneScroll();}, 400);
+						setTimeout(function(){doneScroll();}, 200);
 					}
 					else {
 						if (curPage < numPages)  {
 							curPage++;
-							$('html,body').animate({scrollTop: $('#page'+curPage).offset().top});
+							pageH = $('#page'+curPage).height();
+							wrapH = $('#wrap'+curPage).height();
+							$('#wrap'+curPage).css({'top': Math.max((pageH-wrapH)/3, 0)});
+							$('html,body').animate({scrollTop: $('#page'+curPage).offset().top}, 400);
 							setZ();
 							pfns[curPage-1]();
 							queuedScrolls++;
@@ -126,15 +147,8 @@
 	<body>
 
 		<div id="page1" class="page">
-				<!--<div id="header" class="greenbg row-fluid">
-					<div id="headerhero" class="span10 offset1">
-						<h1> The Beverage Dispenser </h1>
-						<h4 style="float:left" class="opa7"> 18-549: Spring 2013 </h4>
-						<h4 style="float:right" class="opa7"> Lance Christian, Mike Gardner, Arjuna Hayes, Lawrence Tsang</h4>
-					</div>
-				</div>-->
 			<div class="wrapper" id="wrap1">
-				<div id="headerbar"></div>
+				<div class="hb" id="hb1"></div>
 				<div id="header" class="greenbg row-fluid">
 					<div id="headerhero" class="span10 offset1">
 						<h1> The Beverage Dispenser </h1>
@@ -149,9 +163,9 @@
 					<div class="offset1 span10 row-fluid">
 						<div id="concept" class="span5 textblk lightgreenbg">
 							<h3>What does it do?</h3>
-							<h4> The Beverage (and More) Dispenser is a device which can dispense precisely measured amounts of temperature controlled food and drinks, allowing the user to make drinks, smoothies, and snacks by simply pushing a button. </h4>
+							<p> The Beverage (and More) Dispenser is a device which can dispense precisely measured amounts of temperature controlled food and drinks, allowing the user to make drinks, smoothies, and snacks by simply pushing a button. </p>
 						</div>
-						<div id="motivation" class="span7 textblk brownbg">
+						<div id="motivation" class="span7 textblk lightgreenbg">
 							<h3>Why make it?</h3>
 							<p> How awesome would it be to have this at home, making your breakfast as your alarm goes off? How awesome would this be to have at a party, mixing drinks for your guests? How awesome would this be for preparing a drink for you before you get home from work?</p>
 							<p> We want one. We think a lot of people would want one. It's a commercially viable, fiscally reasonable, and totally sweet project. What more could you want? </p>
@@ -164,19 +178,76 @@
 					<h2 id="blogfoot" class="span10 offset1">Visit the <a href="http://tbd-549.blogspot.com/">blog</a> for a play-by-play update on how the project is going!</h2>
 				</div>
 			</div>
-			<!--Title, Subtitle, Concept, Motivation (and blog)-->
 		</div>
 
 		<div id="page2" class="page">
 			<div class="wrapper" id="wrap2">
+				<div class="hb" id="hb2"></div>
+				<div class="row-fluid">
+					<h1 class="offset1 span10" style="color: #333"> Requirements </h1>
+				</div>
+				<div class="row-fluid">
+					<h2 class="offset1 span10"> Hardware </h2>
+				</div>
 				<div class="row-fluid">
 					<div class="offset1 span10 row-fluid">
 						<div class="span7">
-							<h1> Requirements </h1>
-							<br />
-							<br />
-							<br />
-							<br />
+							<h3> Functional </h3>
+							<ul class="unstyled">
+								<li> Ability to mix food items </li>
+								<ul>
+									<li> Solids (ice, cereal) </li>
+									<li> Liquids (milk, water, juice) </li>
+									<li> Powders (sugar, coffee powder, cocoa) </li>
+								</ul>
+								<li> Containers to hold food items </li>
+								<ul>
+									<li> One (temperature controlled) for ice, two for solids/powders </li>
+									<li> Three for liquids (one temperature controlled) </li>
+								</ul>
+								<li> Scale to determine and control amount of consumables dispensed </li>
+								<li> Blender for combining and blending consumables </li>
+								<li> Fast and accurate dispensing of consumables via solenoids and motors </li>
+							</ul>
+						</div>
+						<div class="span5 reqblk">
+							<h3> Non-Functional </h3>
+							<ul class="unstyled">
+								<li> Clean packaging for whole system </li>
+								<li> Aesthetic rigging for consumable containers </li>
+								<li> Electronics (Raspberry Pi, wiring, etc) hidden from view </li>
+							</ul>
+						</div>
+					</div>
+				</div>
+				<div class="row-fluid">
+					<h2 class="offset1 span10"> Software </h2>
+				</div>
+				<div class="row-fluid">
+					<div class="offset1 span10 row-fluid">
+						<div class="span7">
+							<h3> Functional </h3>
+							<ul class="unstyled">
+								<li> Web App </li>
+								<ul>
+									<li> Can set up combinations of consumables (by weight) to create menu of items </li>
+									<li> Can control temperature of containers </li>
+									<li> Will alert if consumable runs out </li>
+									<li> Once set up, menu can be accessed to easily dispense food and drinks </li>
+								</ul>
+								<li> Barcode scanner </li>								<ul>
+									<li> Allows user to easily identify products in the machine </li>
+									<li> When a consumable is added to a container, user can scan barcode so the app knows what is in that container </li>
+									<li> Integrates with web app </li>
+								</ul>
+							</ul>
+						</div>
+						<div class="span5 reqblk">
+							<h3> Non-Functional </h3>
+							<ul class="unstyled">
+								<li> Web app must have clean, easy to use UI </li>
+								<li> App should be viewable from any phone/tablet via a browser (iOS, Android, Win Mobile) or a native app (Android) </li>
+							</ul>
 						</div>
 					</div>
 				</div>
@@ -185,23 +256,32 @@
 
 		<div id="page3" class="page">
 			<div class="wrapper" id="wrap3">
+				<div class="hb" id="hb3"></div>
 				<div class="row-fluid">
 					<div class="offset1 span10 row-fluid">
 						<h1> Architecture </h1>
 					</div>
 				</div>
-				<div id="archdiv">
-					<img src="architecture.png" style="width: 800px;" usemap="#archmap" style="float:left">
-					<map name="archmap" id="archmap">
-						<area shape="rect" coords="000,000,800,800" alt="Pic">
-					</map>
-					<div id="archdesc">
-						
+				<div id="archdiv" class="row-fluid">
+					<div class="offset1 span10">
+						<div class="row-fluid">
+							<div class="span8">
+
+							<img src="img/eearch.png" style="max-height: 60%; min-height: 300px;" usemap="#archmap">
+							<map name="archmap" id="archmap">
+								<area shape="rect" coords="000,000,800,800" alt="Pic">
+							</map>
+
+							</div>
+							<div id="archdesc" class="span4">
+								Click components below to learn more about them [COMING SOON].
+							</div>
+						</div>
 					</div>
 				</div>
 				<div class="row-fluid">
-					<div class="offset1 span10 row-fluid">
-						<div class="span4">
+					<div id="specs" class="offset1 span10 row-fluid">
+						<div class="span4 lightgreenbg">
 							<h4> Hardware </h4>
 							<ul>
 								<li> Raspberry Pi </li>
@@ -212,14 +292,15 @@
 								<li> Temperature Controlled Solid/Liquid Containers</li>
 							</ul>
 						</div>
-						<div class="span4">
+						<div class="span4 lightgreenbg">
 							<h4> Software </h4>
 							<ul>
-								<li> Web App with Barcode Scanner</li>
+								<li> Web App </li>
+								<li> Barcode Scanner </li>
 								<li> Solenoid and Motor Controllers </li>
 							</ul>
 						</div>
-						<div class="span4">
+						<div class="span4 lightgreenbg">
 							<h4> Communication </h4>
 							<ul>
 								<li> Serial I/O for Scale/Pi </li>
@@ -235,41 +316,7 @@
 
 		<div id="page4" class="page">
 			<div class="wrapper" id="wrap4">
-				<!--<div class="row-fluid">
-					<div class="offset1 span10">
-						<h1> Risks and Mitigations </h1>
-						<table id="rmtab" class="table table-bordered table-striped">
-							<thead>
-								<tr>
-									<th class="span6">Risks</th>
-									<th class="span6">Mitigations</th>
-								</tr>
-							</thead>
-							<tbody>
-								<tr>
-									<td> Temperature control doesn't work </td>
-									<td> Remove initial plan to use arbitrary temperature control, and go with 1 hot and 1 cold chamber, (2) try 1 hot OR 1 cold chamber, or (3) look for alternative methods of temperature control (like heating coils) </td>
-								</tr>
-								<tr>
-									<td> Powering all of the devices: motors, solenoid valves, and TEC have specific power needs </td>
-									<td> We are planning to use batteries for the motors and solenoid valves, and a portable current supply for the TEC. If this is insufficient, we may use a desktop computer PSU, which can provide more current. </td>
-								</tr>
-								<tr>
-									<td> Low experience with mechanical elements </td>
-									<td> We have a few external resources who we can consult if need be </td>
-								</tr>
-								<tr>
-									<td> Weighing machine goes in to power save mode too quickly </td>
-									<td> There should be a setting to change it </td>
-								</tr>
-								<tr>
-									<td> Blender cups have low tolerance for high heat </td>
-									<td> Find different blender cups, lower maximum temperature of device, or find an easily-swappable heat-resistant solution </td>
-								</tr>
-							</tbody>
-						</table>
-					</div>
-				</div>-->
+				<div class="hb" id="hb4"></div>
 				<div class="row-fluid">
 					<div class="offset1 span3">
 						<h1> Competition </h1>
@@ -355,37 +402,6 @@
 							<p class="span4"> Everything works perfectly </p>
 							<p class="span8"> That's not even a risk </p>
 						</div>
-
-						<!--<table id="rmtab" class="table table-bordered table-striped">
-							<thead>
-								<tr>
-									<th class="span6">Risks</th>
-									<th class="span6">Mitigations</th>
-								</tr>
-							</thead>
-							<tbody>
-								<tr>
-									<td class="span6"> Temperature control doesn't work </td>
-									<td class="span6"> Remove initial plan to use arbitrary temperature control, and go with 1 hot and 1 cold chamber, (2) try 1 hot OR 1 cold chamber, or (3) look for alternative methods of temperature control (like heating coils) </td>
-								</tr>
-								<tr>
-									<td> Powering all of the devices: motors, solenoid valves, and TEC have specific power needs </td>
-									<td> We are planning to use batteries for the motors and solenoid valves, and a portable current supply for the TEC. If this is insufficient, we may use a desktop computer PSU, which can provide more current. </td>
-								</tr>
-								<tr>
-									<td> Low experience with mechanical elements </td>
-									<td> We have a few external resources who we can consult if need be </td>
-								</tr>
-								<tr>
-									<td> Weighing machine goes in to power save mode too quickly </td>
-									<td> There should be a setting to change it </td>
-								</tr>
-								<tr>
-									<td> Blender cups have low tolerance for high heat </td>
-									<td> Find different blender cups, lower maximum temperature of device, or find an easily-swappable heat-resistant solution </td>
-								</tr>
-							</tbody>
-						</table>-->
 					</div>
 				</div>
 			</div>
@@ -393,9 +409,10 @@
 
 		<div id="page5" class="page">
 			<div class="wrapper" id="wrap5">
+				<div class="hb" id="hb5"></div>
 				<div class="row-fluid">
 					<div class="offset1 span10">
-						<h2> Who are we? </h2>
+						<h1> Who are we? </h1>
 					</div>
 				</div>
 				<div class="row-fluid">

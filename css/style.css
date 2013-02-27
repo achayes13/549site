@@ -1,6 +1,7 @@
 /* CC9752 brown 9ACD32 yellow green */
 body {
 	background-color: #FFF;
+	overflow-x: hidden;
 }
 
 .page {
@@ -25,24 +26,41 @@ body {
 }
 
 #page3 {
-	background-color: #E4EF89;
+	background-color: #BAC45E;
+	background-color: #CCC;
 }
 
 #page4 {
-	background-color: #E4C9A3;
 	background-color: #AC8;
+	background-color: #AAA;
+	background-color: #E4C9A3;
+	background-color: #333;
 }
 
 #page5 {
 	background-color: #CC9752;
+	background-color: #CCC;
 }
 
 
 #wrap2 * {
-	color: #EEE;
+	color: #DDD;
 }
 
-#wrap4 * {
+#specs div {
+	border-radius: 10px;
+	padding: 10px;
+	margin-top: 10px;
+	height: 100%;
+}
+
+#specs {
+	height: 200px;
+}
+
+.reqblk {
+	border-radius: 15px;
+	padding: 0px 5px 0px 10px;
 }
 
 #header {
@@ -50,15 +68,39 @@ body {
 	height: 290px;
 }
 
-#headerbar {
+.hb {
 	width: 4000px;
-	height: 1290px;
 	background-color: #BAC45E;
 	position: absolute;
 	margin-left: -1000px;
-	margin-top: -1000px;
 	z-index: -5;
 
+}
+
+#hb1 {
+	height: 390px;
+	margin-top: -100px;
+}
+
+#hb2 {
+	height: 134px;
+	margin-top: -82;
+}
+
+#hb3 {
+	height: 134px;
+	margin-top: -82px;
+}
+
+#hb4 {
+	height: 174px;
+	margin-top: -114px;
+}
+
+#hb5 {
+	height: 174px;
+	margin-top: -114px;
+	z-index: -3;
 }
 
 #headerhero {
@@ -66,7 +108,6 @@ body {
 	background-color: #D1E231;
 	background-color: #BAC45E;
 	width: 80%;
-	min-width: 940px
 }
 
 #headerhero h1 {
@@ -77,7 +118,22 @@ body {
 
 #blogfoot {
 	text-align: center;
-	color: #658E96;
+	color: #262A40;
+}
+
+#blogfoot a{
+	color: #474E78;
+	text-decoration: none;
+}
+
+#blogfoot a:hover{
+	color: #262A40;
+	text-decoration: none;
+}
+
+#blogfoot a:active{
+	color: #474E78;
+	text-decoration: none;
 }
 
 .textblk * {
@@ -87,7 +143,6 @@ body {
 .textblk {
 	padding: 15px;
 	text-align: center;
-	z-index: 10;
 	border-radius: 10px;
 }
 
@@ -99,6 +154,7 @@ body {
 .lightgreenbg {
 	background-color: #E4EF89;
 	background-color: #CFDB8E;
+	background-color: #DECEB8;
 }
 
 .brownbg {
@@ -122,12 +178,16 @@ body {
 #teammembers .thumbnail {
 	padding: 15px;
 	border-radius: 5px;
-	background-color: #E4C9A3;
+	background-color: #DECEB8;
 	height: 100%
 }
 
 #teammembers {
 	height: 400px;
+}
+
+#archdiv {
+	margin: 10px 0px 10px 0px;
 }
 
 #competition {
@@ -141,16 +201,6 @@ body {
 	min-height: 500px;
 }
 
-#archdiv {
-	width: 1000px;
-	width: 800px;
-}
-
-#archdesc {
-	float: right;
-	width: 190px;
-}
-
 .rmtab * {
 	border: 0px;
 	padding: 0px 0px 0px 0px;
@@ -162,9 +212,11 @@ body {
 
 .rmtab .row-fluid:nth-child(even) {
 	background-color: #E4C9A3;
+	background-color: #E4C9A3;
 }
 
 .rmtab .row-fluid:nth-child(odd) {
+	background-color: #E4EF89;
 	background-color: #E4EF89;
 }
 

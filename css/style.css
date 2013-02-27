@@ -17,6 +17,7 @@ body {
 
 #page1 {
 	background-color: #D1E231;
+	background-color: #AAA;
 }
 
 #page2 {
@@ -36,6 +37,7 @@ body {
 	background-color: #CC9752;
 }
 
+
 #wrap2 * {
 	color: #EEE;
 }
@@ -43,16 +45,39 @@ body {
 #wrap4 * {
 }
 
+#header {
+	background-color: #BAC45E;
+	height: 290px;
+}
+
+#headerbar {
+	width: 4000px;
+	height: 1290px;
+	background-color: #BAC45E;
+	position: absolute;
+	margin-left: -1000px;
+	margin-top: -1000px;
+	z-index: -5;
+
+}
+
 #headerhero {
-	padding: 0px 0px 20px 0px;
+	padding: 120px 0px 25px 0px;
 	background-color: #D1E231;
+	background-color: #BAC45E;
 	width: 80%;
+	min-width: 940px
 }
 
 #headerhero h1 {
 	font-size: 80px;
 	font-weight: bolder;
 	line-height: 80px;
+}
+
+#blogfoot {
+	text-align: center;
+	color: #658E96;
 }
 
 .textblk * {
@@ -63,18 +88,22 @@ body {
 	padding: 15px;
 	text-align: center;
 	z-index: 10;
+	border-radius: 10px;
 }
 
 .greenbg {
 	background-color: #D1E231;
+	background-color: #BAC45E;
 }
 
 .lightgreenbg {
 	background-color: #E4EF89;
+	background-color: #CFDB8E;
 }
 
 .brownbg {
 	background-color: #E4C9A3;
+	background-color: #658E96;
 }
 
 .opa7 {
@@ -124,7 +153,7 @@ body {
 
 .rmtab * {
 	border: 0px;
-	padding: 0px 0px 5px 0px;
+	padding: 0px 0px 0px 0px;
 }
 
 .rmtab .row-fluid p {
